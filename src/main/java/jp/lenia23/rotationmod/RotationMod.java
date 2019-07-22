@@ -1,12 +1,14 @@
 package jp.lenia23.rotationmod;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -15,14 +17,27 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.glfw.GLFW;
 
+import java.util.List;
 import java.util.stream.Collectors;
+
+
 
 @Mod(References.MODID)
 public class RotationMod
 {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
+
+    // Capable rotation block
+    public static String blockIds = "";
+    static List<Object> _blockIds = null;
+    // Rotation key
+    private static int keyNum = GLFW.GLFW_KEY_R;
+    public static KeyBinding procKey;
+
+
 
     public RotationMod() {
         // Register the setup method for modloading
@@ -41,6 +56,10 @@ public class RotationMod
     private void setup(final FMLCommonSetupEvent event)
     {
         // some preinit code
+        //_blockIds = idStringToArray(blockIds, true);
+        //this.keyNum = ModConfig.getKeyboardNo(Key);
+        procKey = new KeyBinding("test", keyNum, "key.categories.movement");
+        setupKeyBind(procKey);
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
     }
@@ -79,6 +98,10 @@ public class RotationMod
             // register a new block here
             LOGGER.info("HELLO from Register Block");
         }
+    }
+
+    private void setupKeyBind(KeyBinding key) {
+
     }
 
 }
